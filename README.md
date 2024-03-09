@@ -12,3 +12,24 @@ GoogleVoice 全自动批量保号<br>
 5. 在你刚新建的 GitHub 项目里面点 **Settings**（设置）然后点 **Secrets**（隐私）新建`GM_BOT_ID`分别对应前面的Bot_ID
 6. 在你刚建的 GitHub 项目里点 **Actions** 然后点左侧 **Autosend** 切换，然后点 **Run workflow** 开始第一次运行。运行成功你应该会收到 bot 的短信。
 7. 设置 Gmail 自动回复 GoogleVoice 短信，可以设定触发关键词为`keepGV`。[参考一下](https://www.cnblogs.com/fallin/p/13473921.html)
+
+### 分享一下google app script内容
+```
+function autoReplier() {
+  let  labelObj = GmailApp.getUserLabelByName('AutoReply');
+  for (var i = 0; i < labelObj.getUnreadCount(); i++) {
+    let messages = labelObj.getThreads()[i].getMessages();
+    for (var j = 0; j < messages.length; j++) {
+        if (messages[j].isUnread()) {
+          let msg = messages[j].getPlainBody();
+          if(msg.indexOf("keepGV") >= 0){
+            let sender = messages[j].getFrom();
+            MailApp.sendEmail(sender, "Auto Reply", '您的指令已经收到，俺一定坚持到底！');
+          }
+        }
+        messages[j].markRead();
+        messages[j].moveToTrash();
+    }
+  }
+}
+```
