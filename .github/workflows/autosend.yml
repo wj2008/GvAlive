@@ -1,0 +1,21 @@
+name: "Autosend"
+
+on:
+  push:
+    branches: master
+  schedule:
+    - cron: 0 9 * * * # 每天9点自动执行
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  autosend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: pushBotMsg
+        uses: joelwmale/webhook-action@master
+        with:
+          url: "https://api.groupme.com/v3/bots/post"
+          body: '{"text" : "keepGV active", "bot_id" : "${{ secrets.GM_BOT_ID }}" }'
