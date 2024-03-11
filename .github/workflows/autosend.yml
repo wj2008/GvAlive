@@ -4,7 +4,7 @@ on:
   push:
     branches: master
   schedule:
-    - cron: 0 9 * * * # 每天9点自动执行
+    - cron: 30 0 * * * # 每天8点30自动执行，北京时间减8个钟头
   workflow_dispatch:
     inputs: {}
 
